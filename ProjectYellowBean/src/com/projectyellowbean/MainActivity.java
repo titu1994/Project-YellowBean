@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+
 public class MainActivity extends Activity {
 
 	@Override
@@ -12,7 +13,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_main);
 		
-		//yoloswag
+		//YAY
 	}
 
 	@Override
