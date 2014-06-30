@@ -12,8 +12,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_main);
 		
-		//Baka!
-		//Is it working now?
+		//Fine fine
 	}
 
 	@Override
