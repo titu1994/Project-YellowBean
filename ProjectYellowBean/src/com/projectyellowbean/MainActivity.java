@@ -13,7 +13,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_main);
 		
-		//YAY
+		//swaggyman
 	}
 
 	@Override
