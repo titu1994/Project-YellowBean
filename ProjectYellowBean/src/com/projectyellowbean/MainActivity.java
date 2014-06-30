@@ -13,6 +13,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.fragment_main);
 		
 		//Baka!
+		//Is it working now?
 	}
 
 	@Override
