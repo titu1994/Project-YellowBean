@@ -12,7 +12,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_main);
 		
-		//Dofus does it work
+		//Baka!
 	}
 
 	@Override
