@@ -86,6 +86,9 @@ public class StocksDatabase extends SQLiteOpenHelper{
 		db.setTransactionSuccessful();
 		Log.d(TAG, "Database Loaded");
 		db.endTransaction();
+		
+		
+		context.getContentResolver().notifyChange(StocksProvider.CONTENT_URI, null);
 	}
 
 	private void saveData(SQLiteDatabase db, String[] data) {
