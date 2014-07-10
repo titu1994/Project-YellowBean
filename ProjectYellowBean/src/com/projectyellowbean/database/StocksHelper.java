@@ -45,6 +45,13 @@ public class StocksHelper {
 		return allStocks;
 	}
 	
+	public final Cursor querySelectedStock() {
+		Cursor cursor = null;
+		
+		
+		return cursor;
+	}
+	
 	public final void finish() {
 		this.context = null;
 	}
