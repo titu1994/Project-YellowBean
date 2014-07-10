@@ -37,7 +37,7 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment_main);
+		setContentView(R.layout.activity_main);
 
 		mListView = (ListView) findViewById(R.id.stock_list);
 		
