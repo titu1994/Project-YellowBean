@@ -96,12 +96,13 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
 					
 					if(selfChange) {
 						
-						//No need for progress dialog anymore
-						pd.dismiss();
 						// Restart loader like this.
 						getLoaderManager().restartLoader(DATA_LOAD, null, MainActivity.this).startLoading();
 						//We dont need to observe the database anymore now.
 						getContentResolver().unregisterContentObserver(this);
+						
+						//No need for progress dialog anymore
+						pd.dismiss();
 					}
 				}
 				
