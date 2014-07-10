@@ -1,11 +1,16 @@
 package com.projectyellowbean.database;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
+import android.content.CursorLoader;
 
 public class StocksHelper {
 	private Context context;
+	
+	public StocksHelper(Context context) {
+		this.context = context;
+	}
 	
 	public final StocksHelper createHelper(Context context) {
 		this.context = context;
@@ -36,20 +41,34 @@ public class StocksHelper {
 		return this;
 	}
 	
-	public final Cursor queryAllStock() {
+	public final CursorLoader queryAllStock() {
 		String projection[] = new String[] {StocksDatabase._ID, StocksDatabase.COL_STOCK_NAME, StocksDatabase.COL_STOCK_SYMBOL, StocksDatabase.COL_STOCK_VALUE, StocksDatabase.COL_STOCK_AMOUNT };
 		String sortOrder = StocksDatabase.COL_STOCK_NAME + " asc";
-		Cursor allStocks = context.getContentResolver().query(StocksProvider.CONTENT_URI, projection, null, null, sortOrder);
-		allStocks.moveToFirst();
+		CursorLoader loader = new CursorLoader(context, StocksProvider.CONTENT_URI, projection, null, null, sortOrder);
 		
-		return allStocks;
+		return loader;
 	}
 	
-	public final Cursor querySelectedStock() {
-		Cursor cursor = null;
+	public final CursorLoader querySelectedStockName(String query) {
+		String projection[] = new String[] {StocksDatabase._ID, StocksDatabase.COL_STOCK_NAME, StocksDatabase.COL_STOCK_SYMBOL, StocksDatabase.COL_STOCK_VALUE, StocksDatabase.COL_STOCK_AMOUNT };
+		String selection = StocksDatabase.COL_STOCK_NAME + " like ?";
+		String selectionArgs[] = new String[] { "%" + query + "%" };
+		String sortOrder = StocksDatabase.COL_STOCK_NAME + " asc";
 		
+		CursorLoader loader = new CursorLoader(context, StocksProvider.CONTENT_URI, projection, selection, selectionArgs, sortOrder);
+		return loader;
+	}
+	
+	@SuppressLint("DefaultLocale")
+	public final CursorLoader querySelectedStockTicker(String query) {
+		String projection[] = new String[] {StocksDatabase._ID, StocksDatabase.COL_STOCK_NAME, StocksDatabase.COL_STOCK_SYMBOL, StocksDatabase.COL_STOCK_VALUE, StocksDatabase.COL_STOCK_AMOUNT };
+		String selection = StocksDatabase.COL_STOCK_SYMBOL + " like ?";
+		String selectionArgs[] = new String[] { query.toUpperCase() + "%" };
+		String sortOrder = StocksDatabase.COL_STOCK_NAME + " asc";
 		
-		return cursor;
+		CursorLoader loader = new CursorLoader(context, StocksProvider.CONTENT_URI, projection, selection, selectionArgs, sortOrder);
+		
+		return loader;
 	}
 	
 	public final void finish() {
