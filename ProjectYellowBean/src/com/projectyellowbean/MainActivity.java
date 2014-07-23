@@ -28,7 +28,6 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
 
 	private static final int DATA_LOAD = 0;
 	private static final int SEARCH_NAME = 1;
-	private static final int SEARCH_TICKER = 2;
 
 	private ListView mListView;
 	private SimpleCursorAdapter mAdapter; 	
@@ -106,9 +105,7 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
 		else if(id == SEARCH_NAME) {
 			return stockHelper.querySelectedStockName(searchQuery);
 		}
-		else if(id == SEARCH_TICKER) {
-			return stockHelper.querySelectedStockTicker(searchQuery);
-		}
+		
 		
 		return null;
 	}
