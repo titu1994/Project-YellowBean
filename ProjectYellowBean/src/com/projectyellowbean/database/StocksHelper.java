@@ -71,6 +71,16 @@ public class StocksHelper {
 		return loader;
 	}
 	
+	public final StocksHelper updateUserStock(String stockTicker, double stockValue, double userAmount) {
+		ContentValues values = new ContentValues();
+		values.put(StocksDatabase.COL_STOCK_SYMBOL, stockTicker);
+		values.put(StocksDatabase.COL_STOCK_VALUE, stockValue);
+		values.put(StocksDatabase.COL_USER_AMOUNT, userAmount);
+		
+		context.getContentResolver().insert(StocksProvider.CONTENT_URI, values);
+		return this;
+	}
+	
 	public final void finish() {
 		this.context = null;
 	}

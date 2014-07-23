@@ -15,29 +15,34 @@ import android.util.Log;
 import com.projectyellowbean.R;
 
 public class StocksDatabase extends SQLiteOpenHelper{
-	
+
 	private static final String TAG = StocksDatabase.class.getSimpleName();
-	
+
 	private Context context;
-	private static final String dbName = "stocks.sq";
-	private static final int dbVersion = 1;
-	
+	private static final String dbName = "stocks.sqlite";
+	private static final int dbVersion = 2;
+
 	public static final String TABLE_STOCK = "stockTable";
-	
+
 	public static final String _ID = "_id";
 	public static final String COL_STOCK_NAME = "stock_name";
 	public static final String COL_STOCK_SYMBOL = "stock_symbol";
 	public static final String COL_STOCK_VALUE = "stock_value";
 	public static final String COL_STOCK_AMOUNT = "stock_amount";
-	
+	public static final String COL_USER_AMOUNT = "user_amount";
+
 	private static final String CREATE_TABLE_STOCK = "create table " + TABLE_STOCK + "(" 
 			+ _ID + " integer primary key autoincrement, " 
 			+ COL_STOCK_NAME + " text not null, "
 			+ COL_STOCK_SYMBOL + " text not null, "
 			+ COL_STOCK_VALUE + " real not null, " 
-			+ COL_STOCK_AMOUNT + " real default 0);";
-			
+			+ COL_STOCK_AMOUNT + " real default 0, "
+			+ COL_USER_AMOUNT + " real default 0);";
 	
+	private static final String ALTER_TABLE_STOCK_1 = "alter table " + TABLE_STOCK 
+			+ " add column " + COL_USER_AMOUNT + " real default 0;";
+
+
 	public StocksDatabase(Context context) {
 		super(context, dbName, null, dbVersion);
 		this.context = context;
@@ -49,10 +54,10 @@ public class StocksDatabase extends SQLiteOpenHelper{
 		Log.d(TAG, "Table created");
 		threadedLoadDatabase(db);
 	}
-	
+
 	private void threadedLoadDatabase(final SQLiteDatabase db) {
 		Thread loadThread = new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				try {
@@ -63,31 +68,31 @@ public class StocksDatabase extends SQLiteOpenHelper{
 				}
 			}
 		});
-		
+
 		loadThread.start();
 	}
 
 	private void loadDatabase(SQLiteDatabase db) throws IOException {
 		db.beginTransaction();
-		
+
 		Resources resources = context.getResources();
-		
+
 		InputStream is = resources.openRawResource(R.raw.companylist);
 		BufferedReader bb = new BufferedReader(new InputStreamReader(is));
-		
+
 		String line;
 		String data[];
-		
+
 		while((line = bb.readLine()) != null) {
 			data = line.split(",");
 			saveData(db, data);
 		}
-		
+
 		db.setTransactionSuccessful();
-		Log.d(TAG, "Database Loaded");
 		db.endTransaction();
-		
-		
+
+		Log.d(TAG, "Database Loaded");
+
 		context.getContentResolver().notifyChange(StocksProvider.CONTENT_URI, null);
 	}
 
@@ -96,15 +101,18 @@ public class StocksDatabase extends SQLiteOpenHelper{
 		values.put(COL_STOCK_NAME, data[0]);
 		values.put(COL_STOCK_SYMBOL, data[1]);
 		values.put(COL_STOCK_VALUE, data[2]);
-		
+
 		db.insert(TABLE_STOCK, null, values);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		Log.d(TAG, "Table is being distroyed");
-		db.execSQL("drop table if exists " + TABLE_STOCK);
-		onCreate(db);
+		switch(oldVersion) {
+		case 1 : {
+			db.execSQL(ALTER_TABLE_STOCK_1);
+		}
+		}
+		
 	}
 
 }

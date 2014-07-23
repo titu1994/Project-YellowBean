@@ -90,7 +90,7 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
 				});
 			}
 			return true;
-		}
+		} 
 		return super.onOptionsItemSelected(item);
 	}
 
